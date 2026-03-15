@@ -138,8 +138,7 @@ UI/UX Redesign             →  3–5 days
 |---|---|
 | Email | hello@18spar.com |
 | Website | 18spar.vercel.com |
-| LinkedIn | linkedin.com/in/yourname |
-| WhatsApp | +91 XXXXXXXXXX |
+| WhatsApp | +91 9491219300 |
 
 To book a free 30-minute discovery call + website audit, visit the website and join the waitlist or email directly.
 
