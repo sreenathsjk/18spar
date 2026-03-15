@@ -1,10 +1,12 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>18spar — Web Design That Converts</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Mono:wght@300;400;500&family=Fraunces:ital,opsz,wght@0,9..144,300;1,9..144,400&display=swap" rel="stylesheet"/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Mono:wght@300;400;500&family=Fraunces:ital,opsz,wght@0,9..144,300;1,9..144,400&display=swap&display=swap" rel="stylesheet"/>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -21,11 +23,10 @@
   html { scroll-behavior: smooth; }
 
   body {
-    background: var(--black);
-    color: var(--white);
-    font-family: 'DM Mono', monospace;
+    background: var(--black, #0a0a0a);
+    color: var(--white, #f5f2eb);
+    font-family: 'DM Mono', 'Courier New', Courier, monospace;
     overflow-x: hidden;
-    cursor: none;
   }
 
   /* CUSTOM CURSOR */
@@ -36,6 +37,7 @@
     transition: transform 0.1s, width 0.3s, height 0.3s, background 0.3s;
   }
   .cursor.expand { width: 40px; height: 40px; background: rgba(232,93,4,0.3); }
+  @media (hover: none) { .cursor { display: none !important; } body { cursor: auto !important; } }
 
   /* NOISE OVERLAY */
   body::before {
@@ -54,7 +56,7 @@
     background: rgba(10,10,10,0.6);
   }
   .nav-logo {
-    font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.4rem;
+    font-family: 'Syne', Arial Black, Arial, sans-serif; font-weight: 800; font-size: 1.4rem;
     letter-spacing: -0.02em;
     background: linear-gradient(90deg, var(--white), var(--orange));
     -webkit-background-clip: text; -webkit-text-fill-color: transparent;
@@ -65,7 +67,7 @@
     letter-spacing: 0.08em; text-transform: uppercase;
     transition: color 0.3s;
   }
-  .nav-links a:hover { color: var(--white); }
+  .nav-links a:hover { color: var(--white, #f5f2eb); }
   .nav-cta {
     background: var(--orange); color: var(--black) !important;
     padding: 0.5rem 1.2rem; font-weight: 500;
@@ -102,14 +104,14 @@
   @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.3)} }
 
   h1 {
-    font-family: 'Syne', sans-serif; font-weight: 800;
+    font-family: 'Syne', Arial Black, Arial, sans-serif; font-weight: 800;
     font-size: clamp(2.8rem, 10vw, 7rem);
     line-height: 0.95; letter-spacing: -0.04em;
     margin-bottom: 1.5rem;
     animation: fadeUp 0.8s 0.1s ease both;
   }
   h1 em {
-    font-family: 'Fraunces', serif; font-style: italic; font-weight: 400;
+    font-family: 'Fraunces', Georgia, serif; font-style: italic; font-weight: 400;
     color: var(--orange);
   }
   .hero-sub {
@@ -117,7 +119,7 @@
     max-width: 540px; margin-bottom: 3rem;
     animation: fadeUp 0.8s 0.2s ease both;
   }
-  .hero-sub strong { color: var(--white); font-weight: 400; }
+  .hero-sub strong { color: var(--white, #f5f2eb); font-weight: 400; }
 
   /* WAITLIST FORM */
   .waitlist-form {
@@ -127,8 +129,8 @@
   .waitlist-form input {
     flex: 1; background: rgba(255,255,255,0.05);
     border: 1px solid rgba(255,255,255,0.1);
-    border-right: none; color: var(--white);
-    font-family: 'DM Mono', monospace; font-size: 0.85rem;
+    border-right: none; color: var(--white, #f5f2eb);
+    font-family: 'DM Mono', 'Courier New', Courier, monospace; font-size: 0.85rem;
     padding: 0.9rem 1.2rem; outline: none;
     transition: border-color 0.3s, background 0.3s;
   }
@@ -137,9 +139,9 @@
   .waitlist-form button {
     background: var(--orange); color: var(--black);
     border: none; padding: 0.9rem 1.5rem;
-    font-family: 'DM Mono', monospace; font-size: 0.82rem;
+    font-family: 'DM Mono', 'Courier New', Courier, monospace; font-size: 0.82rem;
     font-weight: 500; letter-spacing: 0.05em;
-    cursor: none; transition: background 0.3s;
+    cursor: pointer; transition: background 0.3s;
     white-space: nowrap;
   }
   .waitlist-form button:hover { background: var(--orange-light); }
@@ -154,8 +156,8 @@
     animation: fadeUp 0.8s 0.4s ease both;
   }
   .stat-num {
-    font-family: 'Syne', sans-serif; font-size: 2rem; font-weight: 800;
-    color: var(--white); display: block;
+    font-family: 'Syne', Arial Black, Arial, sans-serif; font-size: 2rem; font-weight: 800;
+    color: var(--white, #f5f2eb); display: block;
   }
   .stat-label { color: var(--muted); font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; }
 
@@ -184,7 +186,7 @@
     color: var(--orange); margin-bottom: 1rem;
   }
   h2 {
-    font-family: 'Syne', sans-serif; font-size: clamp(2.5rem, 5vw, 4rem);
+    font-family: 'Syne', Arial Black, Arial, sans-serif; font-size: clamp(2.5rem, 5vw, 4rem);
     font-weight: 800; letter-spacing: -0.03em; line-height: 1.05;
     margin-bottom: 1rem;
   }
@@ -192,7 +194,7 @@
 
   .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1px; background: var(--border); }
   .service-card {
-    background: var(--black); padding: 2.5rem;
+    background: var(--black, #0a0a0a); padding: 2.5rem;
     transition: background 0.3s; position: relative; overflow: hidden;
   }
   .service-card::before {
@@ -204,7 +206,7 @@
   .service-card:hover::before { transform: scaleX(1); }
   .service-icon { font-size: 2rem; margin-bottom: 1.5rem; }
   .service-card h3 {
-    font-family: 'Syne', sans-serif; font-size: 1.2rem;
+    font-family: 'Syne', Arial Black, Arial, sans-serif; font-size: 1.2rem;
     font-weight: 700; margin-bottom: 0.8rem;
   }
   .service-card p { color: var(--muted); font-size: 0.85rem; line-height: 1.7; }
@@ -223,11 +225,11 @@
   .step:last-child { border-right: none; }
   .step::before {
     content: "0" counter(step);
-    font-family: 'Syne', sans-serif; font-size: 3rem; font-weight: 800;
+    font-family: 'Syne', Arial Black, Arial, sans-serif; font-size: 3rem; font-weight: 800;
     color: rgba(232,93,4,0.15); display: block; margin-bottom: 1rem;
     line-height: 1;
   }
-  .step h4 { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; margin-bottom: 0.6rem; }
+  .step h4 { font-family: 'Syne', Arial Black, Arial, sans-serif; font-size: 1rem; font-weight: 700; margin-bottom: 0.6rem; }
   .step p { color: var(--muted); font-size: 0.8rem; line-height: 1.7; }
 
   /* PORTFOLIO TEASE */
@@ -246,7 +248,7 @@
   }
   .portfolio-label {
     position: relative; z-index: 1;
-    font-family: 'Syne', sans-serif; font-size: 0.85rem; font-weight: 700;
+    font-family: 'Syne', Arial Black, Arial, sans-serif; font-size: 0.85rem; font-weight: 700;
   }
   .portfolio-tag {
     font-size: 0.65rem; color: var(--muted); letter-spacing: 0.1em;
@@ -266,7 +268,7 @@
   .cta-section p { color: var(--muted); margin-bottom: 3rem; }
   .cta-btn {
     display: inline-block; background: var(--orange); color: var(--black);
-    text-decoration: none; font-family: 'Syne', sans-serif;
+    text-decoration: none; font-family: 'Syne', Arial Black, Arial, sans-serif;
     font-weight: 700; font-size: 0.9rem; letter-spacing: 0.05em;
     padding: 1.1rem 2.8rem; transition: background 0.3s, transform 0.2s;
   }
@@ -280,7 +282,7 @@
     flex-wrap: wrap; gap: 1rem;
   }
   .footer-logo {
-    font-family: 'Syne', sans-serif; font-weight: 800;
+    font-family: 'Syne', Arial Black, Arial, sans-serif; font-weight: 800;
     background: linear-gradient(90deg, var(--white), var(--orange));
     -webkit-background-clip: text; -webkit-text-fill-color: transparent;
   }
@@ -352,10 +354,10 @@
     margin-bottom: 0.6rem;
   }
   .founder-name {
-    font-family: 'Syne', sans-serif; font-weight: 800;
+    font-family: 'Syne', Arial Black, Arial, sans-serif; font-weight: 800;
     font-size: clamp(2rem, 4vw, 3rem);
     letter-spacing: -0.03em; line-height: 1.05;
-    margin-bottom: 1.5rem; color: var(--white);
+    margin-bottom: 1.5rem; color: var(--white, #f5f2eb);
   }
   .founder-bio {
     color: var(--muted); font-size: 0.9rem;
@@ -367,8 +369,8 @@
     border-bottom: 1px solid var(--border);
   }
   .fstat-num {
-    font-family: 'Syne', sans-serif; font-size: 1.4rem;
-    font-weight: 800; color: var(--white); display: block;
+    font-family: 'Syne', Arial Black, Arial, sans-serif; font-size: 1.4rem;
+    font-weight: 800; color: var(--white, #f5f2eb); display: block;
   }
   .fstat-label {
     font-size: 0.65rem; color: var(--muted);
@@ -377,7 +379,7 @@
   .founder-cta {
     display: inline-block; background: transparent;
     border: 1px solid var(--orange); color: var(--orange);
-    text-decoration: none; font-family: 'Syne', sans-serif;
+    text-decoration: none; font-family: 'Syne', Arial Black, Arial, sans-serif;
     font-weight: 700; font-size: 0.85rem;
     letter-spacing: 0.05em; padding: 0.9rem 2rem;
     transition: background 0.3s, color 0.3s; margin-top: 0.5rem;
@@ -395,7 +397,7 @@
   }
 </style>
 </head>
-<body>
+<body style="background:#0a0a0a;color:#f5f2eb;">
 
 <div class="cursor" id="cursor"></div>
 
