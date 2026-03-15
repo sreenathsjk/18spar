@@ -150,4 +150,4 @@ All client work is delivered with full ownership transferred upon final payment.
 
 ---
 
-*© 2025 18spar. Built different.*
+*© 2026 18spar. Built different.*
