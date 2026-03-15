@@ -2,7 +2,7 @@
 
 > Fast, custom-coded websites for businesses that are done settling for average.
 
-**Live Site:** [18spar.vercel.com](https://18spar.vercel.com)  
+**Live Site:** [sreenathsjk.github.io/18spar/](https://sreenathsjk.github.io/18spar/)  
 **Contact:** hello@18spar.com
 
 ---
