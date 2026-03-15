@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>18spar — Web Design That Converts</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Mono:wght@300;400;500&family=Fraunces:ital,opsz,wght@0,9..144,300;1,9..144,400&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black: #0a0a0a;
+    --white: #f5f2eb;
+    --cream: #f0ead8;
+    --orange: #e85d04;
+    --orange-light: #ff7722;
+    --muted: #7a7265;
+    --border: #2a2520;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'DM Mono', monospace;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* CUSTOM CURSOR */
+  .cursor {
+    position: fixed; top: 0; left: 0; width: 12px; height: 12px;
+    background: var(--orange); border-radius: 50%; pointer-events: none;
+    z-index: 9999; transform: translate(-50%, -50%);
+    transition: transform 0.1s, width 0.3s, height 0.3s, background 0.3s;
+  }
+  .cursor.expand { width: 40px; height: 40px; background: rgba(232,93,4,0.3); }
+
+  /* NOISE OVERLAY */
+  body::before {
+    content: ''; position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 1; opacity: 0.6;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.5rem 3rem;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    backdrop-filter: blur(20px);
+    background: rgba(10,10,10,0.6);
+  }
+  .nav-logo {
+    font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.4rem;
+    letter-spacing: -0.02em;
+    background: linear-gradient(90deg, var(--white), var(--orange));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    color: var(--muted); text-decoration: none; font-size: 0.78rem;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--white); }
+  .nav-cta {
+    background: var(--orange); color: var(--black) !important;
+    padding: 0.5rem 1.2rem; font-weight: 500;
+    transition: background 0.3s !important;
+  }
+  .nav-cta:hover { background: var(--orange-light) !important; color: var(--black) !important; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh; display: grid; place-items: center;
+    padding: 8rem 3rem 4rem;
+    position: relative; overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0; z-index: 0;
+    background: radial-gradient(ellipse 80% 60% at 60% 40%, rgba(232,93,4,0.08) 0%, transparent 70%),
+                radial-gradient(ellipse 40% 40% at 10% 80%, rgba(232,93,4,0.05) 0%, transparent 60%);
+  }
+  .hero-grid {
+    position: absolute; inset: 0; z-index: 0;
+    background-image: linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  .hero-content { position: relative; z-index: 2; max-width: 900px; }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: rgba(232,93,4,0.12); border: 1px solid rgba(232,93,4,0.3);
+    color: var(--orange); padding: 0.4rem 1rem; font-size: 0.72rem;
+    letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 2rem;
+    animation: fadeUp 0.8s ease both;
+  }
+  .badge-dot { width: 6px; height: 6px; background: var(--orange); border-radius: 50%; animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.3)} }
+
+  h1 {
+    font-family: 'Syne', sans-serif; font-weight: 800;
+    font-size: clamp(3.5rem, 8vw, 7rem);
+    line-height: 0.95; letter-spacing: -0.04em;
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.8s 0.1s ease both;
+  }
+  h1 em {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 400;
+    color: var(--orange);
+  }
+  .hero-sub {
+    font-size: 1.05rem; line-height: 1.7; color: var(--muted);
+    max-width: 540px; margin-bottom: 3rem;
+    animation: fadeUp 0.8s 0.2s ease both;
+  }
+  .hero-sub strong { color: var(--white); font-weight: 400; }
+
+  /* WAITLIST FORM */
+  .waitlist-form {
+    display: flex; gap: 0; max-width: 480px;
+    animation: fadeUp 0.8s 0.3s ease both;
+  }
+  .waitlist-form input {
+    flex: 1; background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-right: none; color: var(--white);
+    font-family: 'DM Mono', monospace; font-size: 0.85rem;
+    padding: 0.9rem 1.2rem; outline: none;
+    transition: border-color 0.3s, background 0.3s;
+  }
+  .waitlist-form input::placeholder { color: var(--muted); }
+  .waitlist-form input:focus { border-color: var(--orange); background: rgba(232,93,4,0.05); }
+  .waitlist-form button {
+    background: var(--orange); color: var(--black);
+    border: none; padding: 0.9rem 1.5rem;
+    font-family: 'DM Mono', monospace; font-size: 0.82rem;
+    font-weight: 500; letter-spacing: 0.05em;
+    cursor: none; transition: background 0.3s;
+    white-space: nowrap;
+  }
+  .waitlist-form button:hover { background: var(--orange-light); }
+  .success-msg {
+    display: none; color: var(--orange); font-size: 0.82rem;
+    margin-top: 0.8rem; letter-spacing: 0.05em;
+  }
+
+  .hero-stats {
+    display: flex; gap: 3rem; margin-top: 4rem;
+    padding-top: 3rem; border-top: 1px solid rgba(255,255,255,0.06);
+    animation: fadeUp 0.8s 0.4s ease both;
+  }
+  .stat-num {
+    font-family: 'Syne', sans-serif; font-size: 2rem; font-weight: 800;
+    color: var(--white); display: block;
+  }
+  .stat-label { color: var(--muted); font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; }
+
+  /* MARQUEE */
+  .marquee-wrap {
+    overflow: hidden; border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 1.2rem 0; background: rgba(232,93,4,0.04);
+  }
+  .marquee-track {
+    display: flex; gap: 3rem; width: max-content;
+    animation: marquee 25s linear infinite;
+  }
+  .marquee-item {
+    font-size: 0.72rem; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--muted);
+    white-space: nowrap; display: flex; align-items: center; gap: 3rem;
+  }
+  .marquee-item span { color: var(--orange); }
+  @keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
+
+  /* SERVICES */
+  .section { padding: 7rem 3rem; }
+  .section-tag {
+    font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--orange); margin-bottom: 1rem;
+  }
+  h2 {
+    font-family: 'Syne', sans-serif; font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 800; letter-spacing: -0.03em; line-height: 1.05;
+    margin-bottom: 1rem;
+  }
+  .section-sub { color: var(--muted); font-size: 0.95rem; line-height: 1.7; max-width: 500px; margin-bottom: 4rem; }
+
+  .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1px; background: var(--border); }
+  .service-card {
+    background: var(--black); padding: 2.5rem;
+    transition: background 0.3s; position: relative; overflow: hidden;
+  }
+  .service-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, transparent, var(--orange), transparent);
+    transform: scaleX(0); transition: transform 0.4s;
+  }
+  .service-card:hover { background: rgba(232,93,4,0.04); }
+  .service-card:hover::before { transform: scaleX(1); }
+  .service-icon { font-size: 2rem; margin-bottom: 1.5rem; }
+  .service-card h3 {
+    font-family: 'Syne', sans-serif; font-size: 1.2rem;
+    font-weight: 700; margin-bottom: 0.8rem;
+  }
+  .service-card p { color: var(--muted); font-size: 0.85rem; line-height: 1.7; }
+  .service-price {
+    margin-top: 1.5rem; font-size: 0.75rem;
+    color: var(--orange); letter-spacing: 0.05em;
+  }
+
+  /* PROCESS */
+  .process-section { background: rgba(255,255,255,0.01); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .process-steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0; counter-reset: step; }
+  .step {
+    padding: 3rem 2.5rem; border-right: 1px solid var(--border);
+    counter-increment: step; position: relative;
+  }
+  .step:last-child { border-right: none; }
+  .step::before {
+    content: "0" counter(step);
+    font-family: 'Syne', sans-serif; font-size: 3rem; font-weight: 800;
+    color: rgba(232,93,4,0.15); display: block; margin-bottom: 1rem;
+    line-height: 1;
+  }
+  .step h4 { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; margin-bottom: 0.6rem; }
+  .step p { color: var(--muted); font-size: 0.8rem; line-height: 1.7; }
+
+  /* PORTFOLIO TEASE */
+  .portfolio-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; grid-template-rows: 280px 280px; gap: 1px; background: var(--border); }
+  .portfolio-item {
+    background: rgba(232,93,4,0.05);
+    display: flex; align-items: flex-end; padding: 1.5rem;
+    position: relative; overflow: hidden; cursor: none;
+    transition: background 0.3s;
+  }
+  .portfolio-item:first-child { grid-row: span 2; }
+  .portfolio-item:hover { background: rgba(232,93,4,0.1); }
+  .portfolio-bg {
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(232,93,4,0.08), rgba(232,93,4,0.02));
+  }
+  .portfolio-label {
+    position: relative; z-index: 1;
+    font-family: 'Syne', sans-serif; font-size: 0.85rem; font-weight: 700;
+  }
+  .portfolio-tag {
+    font-size: 0.65rem; color: var(--muted); letter-spacing: 0.1em;
+    text-transform: uppercase; display: block; margin-top: 0.2rem;
+  }
+  .portfolio-num {
+    position: absolute; top: 1.5rem; right: 1.5rem;
+    font-size: 0.65rem; color: var(--muted); letter-spacing: 0.1em;
+  }
+
+  /* CTA */
+  .cta-section {
+    padding: 8rem 3rem; text-align: center;
+    background: linear-gradient(180deg, transparent, rgba(232,93,4,0.04), transparent);
+  }
+  .cta-section h2 { margin-bottom: 1.5rem; }
+  .cta-section p { color: var(--muted); margin-bottom: 3rem; }
+  .cta-btn {
+    display: inline-block; background: var(--orange); color: var(--black);
+    text-decoration: none; font-family: 'Syne', sans-serif;
+    font-weight: 700; font-size: 0.9rem; letter-spacing: 0.05em;
+    padding: 1.1rem 2.8rem; transition: background 0.3s, transform 0.2s;
+  }
+  .cta-btn:hover { background: var(--orange-light); transform: translateY(-2px); }
+  .cta-note { font-size: 0.72rem; color: var(--muted); margin-top: 1.2rem; letter-spacing: 0.08em; }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border); padding: 3rem;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 1rem;
+  }
+  .footer-logo {
+    font-family: 'Syne', sans-serif; font-weight: 800;
+    background: linear-gradient(90deg, var(--white), var(--orange));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  footer p { color: var(--muted); font-size: 0.75rem; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* SCROLL ANIMATIONS */
+  .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  @media (max-width: 768px) {
+    nav { padding: 1.2rem 1.5rem; }
+    .nav-links { display: none; }
+    .hero { padding: 6rem 1.5rem 3rem; }
+    .section { padding: 5rem 1.5rem; }
+    .hero-stats { gap: 2rem; }
+    .portfolio-grid { grid-template-columns: 1fr; grid-template-rows: auto; }
+    .portfolio-item:first-child { grid-row: span 1; }
+    footer { padding: 2rem 1.5rem; flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">18spar</div>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#work">Work</a></li>
+    <li><a href="#waitlist" class="nav-cta">Join Waitlist</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-badge"><span class="badge-dot"></span> Now Accepting New Clients — Limited Spots</div>
+    <h1>Websites That<br/><em>Actually</em><br/>Convert.</h1>
+    <p class="hero-sub">
+      <strong>18spar</strong> builds precision-crafted web experiences for startups, agencies, and founders who are done settling for average. Fast delivery. Stunning design. <strong>Real results.</strong>
+    </p>
+    <div class="waitlist-form" id="waitlist">
+      <input type="email" id="email-input" placeholder="your@email.com" />
+      <button onclick="joinWaitlist()">Join Waitlist →</button>
+    </div>
+    <p class="success-msg" id="success-msg">✓ You're on the list. We'll be in touch within 24h.</p>
+    <div class="hero-stats">
+      <div><span class="stat-num">48h</span><span class="stat-label">Avg. Delivery</span></div>
+      <div><span class="stat-num">100%</span><span class="stat-label">Custom Code</span></div>
+      <div><span class="stat-num">∞</span><span class="stat-label">Revisions</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <div class="marquee-item">Landing Pages <span>✦</span> SaaS Dashboards <span>✦</span> E-Commerce <span>✦</span> Brand Websites <span>✦</span> Portfolio Sites <span>✦</span> Web Apps <span>✦</span> UI/UX Design <span>✦</span> CRO Optimization <span>✦</span></div>
+    <div class="marquee-item">Landing Pages <span>✦</span> SaaS Dashboards <span>✦</span> E-Commerce <span>✦</span> Brand Websites <span>✦</span> Portfolio Sites <span>✦</span> Web Apps <span>✦</span> UI/UX Design <span>✦</span> CRO Optimization <span>✦</span></div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section class="section" id="services">
+  <p class="section-tag reveal">What We Build</p>
+  <h2 class="reveal">Every pixel<br/>is intentional.</h2>
+  <p class="section-sub reveal">We don't do templates. Every project is built from scratch, engineered to perform and designed to impress.</p>
+  <div class="services-grid">
+    <div class="service-card reveal">
+      <div class="service-icon">⚡</div>
+      <h3>Landing Pages</h3>
+      <p>High-converting single-page experiences built to capture leads, drive sales, and communicate your value in seconds.</p>
+      <p class="service-price">Starting at $500</p>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-icon">🏗️</div>
+      <h3>Full Brand Websites</h3>
+      <p>Multi-page sites that establish authority, tell your story, and work 24/7 as your best salesperson.</p>
+      <p class="service-price">Starting at $1,200</p>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-icon">📊</div>
+      <h3>SaaS & Web Apps</h3>
+      <p>Dashboards, portals, and application interfaces that users love navigating — designed for clarity at scale.</p>
+      <p class="service-price">Starting at $2,000</p>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-icon">🛒</div>
+      <h3>E-Commerce Stores</h3>
+      <p>Shopify and custom storefronts that reduce drop-off, build trust, and turn browsers into buyers.</p>
+      <p class="service-price">Starting at $1,500</p>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-icon">🎨</div>
+      <h3>UI/UX Redesigns</h3>
+      <p>Existing site underperforming? We audit, redesign, and rebuild — keeping what works and fixing what doesn't.</p>
+      <p class="service-price">Starting at $800</p>
+    </div>
+    <div class="service-card reveal">
+      <div class="service-icon">🚀</div>
+      <h3>Monthly Retainer</h3>
+      <p>Ongoing web partner — updates, new pages, A/B testing, and CRO support every month on demand.</p>
+      <p class="service-price">Starting at $400/mo</p>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="section process-section" id="process">
+  <div style="max-width:1200px;margin:0 auto">
+    <p class="section-tag reveal">How It Works</p>
+    <h2 class="reveal">From idea to live<br/>in days, not months.</h2>
+    <div class="process-steps reveal">
+      <div class="step">
+        <h4>Discovery Call</h4>
+        <p>30-minute call to understand your goals, audience, and what success looks like.</p>
+      </div>
+      <div class="step">
+        <h4>Proposal & Quote</h4>
+        <p>Clear scope, timeline, and flat-rate pricing — no surprises, no hourly billing.</p>
+      </div>
+      <div class="step">
+        <h4>Design Sprint</h4>
+        <p>First draft delivered within 48–72 hours. Built for speed without sacrificing quality.</p>
+      </div>
+      <div class="step">
+        <h4>Revise & Refine</h4>
+        <p>Unlimited revisions until you're 100% satisfied. Your feedback drives everything.</p>
+      </div>
+      <div class="step">
+        <h4>Launch & Handoff</h4>
+        <p>We deploy, test, and hand over everything — code, CMS access, and documentation.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PORTFOLIO TEASE -->
+<section class="section" id="work">
+  <p class="section-tag reveal">Selected Work</p>
+  <h2 class="reveal" style="margin-bottom:3rem">Built to<br/>be remembered.</h2>
+  <div class="portfolio-grid reveal">
+    <div class="portfolio-item">
+      <div class="portfolio-bg"></div>
+      <span class="portfolio-num">001</span>
+      <div>
+        <span class="portfolio-label">NexaFlow SaaS Dashboard</span>
+        <span class="portfolio-tag">Web App · UI/UX</span>
+      </div>
+    </div>
+    <div class="portfolio-item">
+      <div class="portfolio-bg" style="background:linear-gradient(135deg,rgba(232,93,4,0.12),transparent)"></div>
+      <span class="portfolio-num">002</span>
+      <div>
+        <span class="portfolio-label">Lumara Studio</span>
+        <span class="portfolio-tag">Brand Website</span>
+      </div>
+    </div>
+    <div class="portfolio-item">
+      <div class="portfolio-bg" style="background:linear-gradient(135deg,rgba(232,93,4,0.06),transparent)"></div>
+      <span class="portfolio-num">003</span>
+      <div>
+        <span class="portfolio-label">Forge Commerce</span>
+        <span class="portfolio-tag">E-Commerce</span>
+      </div>
+    </div>
+    <div class="portfolio-item">
+      <div class="portfolio-bg"></div>
+      <span class="portfolio-num">004</span>
+      <div>
+        <span class="portfolio-label">Orbit Landing</span>
+        <span class="portfolio-tag">Landing Page · CRO</span>
+      </div>
+    </div>
+    <div class="portfolio-item">
+      <div class="portfolio-bg" style="background:linear-gradient(135deg,rgba(232,93,4,0.1),transparent)"></div>
+      <span class="portfolio-num">005</span>
+      <div>
+        <span class="portfolio-label">PulseHR App</span>
+        <span class="portfolio-tag">Web App</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <p class="section-tag">Ready to Start?</p>
+  <h2>Let's build something<br/>worth <em style="font-family:'Fraunces',serif;font-style:italic;color:var(--orange)">talking about.</em></h2>
+  <p>Join the waitlist and get a free 30-minute strategy call + website audit.</p>
+  <a href="#waitlist" class="cta-btn">Claim Your Free Audit →</a>
+  <p class="cta-note">NO COMMITMENT · RESPONSE WITHIN 24H · FREE AUDIT INCLUDED</p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">18spar</div>
+  <p>© 2025 18spar. All rights reserved.</p>
+  <p style="color:var(--muted)">hello@18spar.com</p>
+</footer>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  document.addEventListener('mousemove', e => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
+  });
+  document.querySelectorAll('a, button, input').forEach(el => {
+    el.addEventListener('mouseenter', () => cursor.classList.add('expand'));
+    el.addEventListener('mouseleave', () => cursor.classList.remove('expand'));
+  });
+
+  // Scroll reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+  revealEls.forEach(el => observer.observe(el));
+
+  // Waitlist
+  function joinWaitlist() {
+    const email = document.getElementById('email-input').value;
+    if (!email || !email.includes('@')) { alert('Please enter a valid email.'); return; }
+    document.querySelector('.waitlist-form').style.display = 'none';
+    document.getElementById('success-msg').style.display = 'block';
+    // Store locally
+    const leads = JSON.parse(localStorage.getItem('18spar_waitlist') || '[]');
+    leads.push({ email, date: new Date().toISOString() });
+    localStorage.setItem('18spar_waitlist', JSON.stringify(leads));
+  }
+</script>
+</body>
+</html>
