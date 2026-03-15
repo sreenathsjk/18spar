@@ -98,7 +98,7 @@
     background: rgba(232,93,4,0.12); border: 1px solid rgba(232,93,4,0.3);
     color: var(--orange); padding: 0.4rem 1rem; font-size: 0.72rem;
     letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 2rem;
-    animation: fadeUp 0.8s ease both;
+    
   }
   .badge-dot { width: 6px; height: 6px; background: var(--orange); border-radius: 50%; animation: pulse 2s infinite; }
   @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.3)} }
@@ -108,7 +108,7 @@
     font-size: clamp(2.8rem, 10vw, 7rem);
     line-height: 0.95; letter-spacing: -0.04em;
     margin-bottom: 1.5rem;
-    animation: fadeUp 0.8s 0.1s ease both;
+    
   }
   h1 em {
     font-family: 'Fraunces', Georgia, serif; font-style: italic; font-weight: 400;
@@ -117,14 +117,14 @@
   .hero-sub {
     font-size: clamp(0.85rem, 2.5vw, 1.05rem); line-height: 1.7; color: var(--muted);
     max-width: 540px; margin-bottom: 3rem;
-    animation: fadeUp 0.8s 0.2s ease both;
+    
   }
   .hero-sub strong { color: var(--white, #f5f2eb); font-weight: 400; }
 
   /* WAITLIST FORM */
   .waitlist-form {
     display: flex; gap: 0; max-width: 480px;
-    animation: fadeUp 0.8s 0.3s ease both;
+    
   }
   .waitlist-form input {
     flex: 1; background: rgba(255,255,255,0.05);
@@ -153,7 +153,7 @@
   .hero-stats {
     display: flex; gap: 3rem; margin-top: 4rem;
     padding-top: 3rem; border-top: 1px solid rgba(255,255,255,0.06);
-    animation: fadeUp 0.8s 0.4s ease both;
+    
   }
   .stat-num {
     font-family: 'Syne', Arial Black, Arial, sans-serif; font-size: 2rem; font-weight: 800;
@@ -288,13 +288,10 @@
   }
   footer p { color: var(--muted); font-size: 0.75rem; }
 
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(24px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
+
 
   /* SCROLL ANIMATIONS */
-  .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal { opacity: 1; transform: none; transition: opacity 0.7s ease, transform 0.7s ease; }
   .reveal.visible { opacity: 1; transform: none; }
 
   @media (max-width: 768px) {
@@ -453,37 +450,37 @@
       <div class="service-icon">⚡</div>
       <h3>Landing Pages</h3>
       <p>High-converting single-page experiences built to capture leads, drive sales, and communicate your value in seconds.</p>
-      <p class="service-price">Starting at $500</p>
+      <p class="service-price">Starting at ₹5,000 / $500</p>
     </div>
     <div class="service-card reveal">
       <div class="service-icon">🏗️</div>
       <h3>Full Brand Websites</h3>
       <p>Multi-page sites that establish authority, tell your story, and work 24/7 as your best salesperson.</p>
-      <p class="service-price">Starting at $1,200</p>
+      <p class="service-price">Starting at ₹12,000 / $1,200</p>
     </div>
     <div class="service-card reveal">
       <div class="service-icon">📊</div>
       <h3>SaaS & Web Apps</h3>
       <p>Dashboards, portals, and application interfaces that users love navigating — designed for clarity at scale.</p>
-      <p class="service-price">Starting at $2,000</p>
+      <p class="service-price">Starting at ₹20,000 / $2,000</p>
     </div>
     <div class="service-card reveal">
       <div class="service-icon">🛒</div>
       <h3>E-Commerce Stores</h3>
       <p>Shopify and custom storefronts that reduce drop-off, build trust, and turn browsers into buyers.</p>
-      <p class="service-price">Starting at $1,500</p>
+      <p class="service-price">Starting at ₹15,000 / $1,500</p>
     </div>
     <div class="service-card reveal">
       <div class="service-icon">🎨</div>
       <h3>UI/UX Redesigns</h3>
       <p>Existing site underperforming? We audit, redesign, and rebuild — keeping what works and fixing what doesn't.</p>
-      <p class="service-price">Starting at $800</p>
+      <p class="service-price">Starting at ₹8,000 / $800</p>
     </div>
     <div class="service-card reveal">
       <div class="service-icon">🚀</div>
       <h3>Monthly Retainer</h3>
       <p>Ongoing web partner — updates, new pages, A/B testing, and CRO support every month on demand.</p>
-      <p class="service-price">Starting at $400/mo</p>
+      <p class="service-price">Starting at ₹4,000 / $400/mo</p>
     </div>
   </div>
 </section>
@@ -527,40 +524,40 @@
       <div class="portfolio-bg"></div>
       <span class="portfolio-num">001</span>
       <div>
-        <span class="portfolio-label">NexaFlow SaaS Dashboard</span>
-        <span class="portfolio-tag">Web App · UI/UX</span>
+        <span class="portfolio-label">Coming Soon</span>
+        <span class="portfolio-tag">First Project In Progress</span>
       </div>
     </div>
     <div class="portfolio-item">
       <div class="portfolio-bg" style="background:linear-gradient(135deg,rgba(232,93,4,0.12),transparent)"></div>
       <span class="portfolio-num">002</span>
       <div>
-        <span class="portfolio-label">Lumara Studio</span>
-        <span class="portfolio-tag">Brand Website</span>
+        <span class="portfolio-label">Your Brand Here</span>
+        <span class="portfolio-tag">Be Our First Client</span>
       </div>
     </div>
     <div class="portfolio-item">
       <div class="portfolio-bg" style="background:linear-gradient(135deg,rgba(232,93,4,0.06),transparent)"></div>
       <span class="portfolio-num">003</span>
       <div>
-        <span class="portfolio-label">Forge Commerce</span>
-        <span class="portfolio-tag">E-Commerce</span>
+        <span class="portfolio-label">Spots Available</span>
+        <span class="portfolio-tag">Limited Openings</span>
       </div>
     </div>
     <div class="portfolio-item">
       <div class="portfolio-bg"></div>
       <span class="portfolio-num">004</span>
       <div>
-        <span class="portfolio-label">Orbit Landing</span>
-        <span class="portfolio-tag">Landing Page · CRO</span>
+        <span class="portfolio-label">Get a Free Audit</span>
+        <span class="portfolio-tag">No Commitment</span>
       </div>
     </div>
     <div class="portfolio-item">
       <div class="portfolio-bg" style="background:linear-gradient(135deg,rgba(232,93,4,0.1),transparent)"></div>
       <span class="portfolio-num">005</span>
       <div>
-        <span class="portfolio-label">PulseHR App</span>
-        <span class="portfolio-tag">Web App</span>
+        <span class="portfolio-label">Join the Waitlist</span>
+        <span class="portfolio-tag">Early Access Pricing</span>
       </div>
     </div>
   </div>
@@ -609,11 +606,11 @@
 <!-- FOOTER -->
 <footer>
   <div class="footer-logo">18spar</div>
-  <p>© 2025 18spar. All rights reserved.</p>
-  <p style="color:var(--muted)"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="92faf7fefefdd2a3aae1e2f3e0bcf1fdff">[email&#160;protected]</a></p>
+  <p>© 2026 18spar. All rights reserved.</p>
+  <p style="color:var(--muted)">hello@18spar.com</p>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
   // Custom cursor
   const cursor = document.getElementById('cursor');
   document.addEventListener('mousemove', e => {
@@ -625,12 +622,20 @@
     el.addEventListener('mouseleave', () => cursor.classList.remove('expand'));
   });
 
-  // Scroll reveal
+  // Scroll reveal - with fallback for mobile
   const revealEls = document.querySelectorAll('.reveal');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
-  }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-  revealEls.forEach(el => observer.observe(el));
+  if ('IntersectionObserver' in window) {
+    revealEls.forEach(el => { el.style.opacity = '0'; el.style.transform = 'translateY(20px)'; });
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { 
+        if(e.isIntersecting) { 
+          e.target.style.opacity = '1'; 
+          e.target.style.transform = 'none'; 
+        }
+      });
+    }, { threshold: 0.05 });
+    revealEls.forEach(el => observer.observe(el));
+  }
 
   // Waitlist
   function joinWaitlist() {
