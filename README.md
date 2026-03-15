@@ -62,7 +62,7 @@
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/18spar.git
+git clone https://github.com/sreenathsjk/18spar.git
 
 # Navigate into the folder
 cd 18spar
