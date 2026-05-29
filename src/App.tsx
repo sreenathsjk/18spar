@@ -18,7 +18,8 @@ import {
   Check,
   AlertTriangle,
   X,
-  ChevronDown
+  ChevronDown,
+  Menu
 } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 
@@ -83,6 +84,7 @@ export default function App() {
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
   const [activeSlide, setActiveSlide] = useState(0);
   const [scrolled, setScrolled] = useState(false);
+  const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
 
   const addToast = (title: string, message: string, type: "success" | "error" | "info" = "info", duration = 4000) => {
     const id = Math.random().toString(36).substring(2, 9);
@@ -101,7 +103,6 @@ export default function App() {
   const [systemSync, setSystemSync] = useState(98.4);
   const [latency, setLatency] = useState(1.2);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-  const [mouseSpeed, setMouseSpeed] = useState(0);
   const [optimizedStatus, setOptimizedStatus] = useState(true);
   const [currentUtcTime, setCurrentUtcTime] = useState("");
 
@@ -251,7 +252,6 @@ export default function App() {
       
       if (dt > 0) {
         const speed = Math.sqrt(dx * dx + dy * dy) / dt;
-        setMouseSpeed(Math.round(speed * 100));
         mouseVelocity.current = Math.min(speed * 0.15, 1.5);
       }
 
@@ -824,29 +824,158 @@ export default function App() {
           </div>
         </div>
         
-        <ul className="hidden md:flex items-center gap-8 text-[11px] tracking-widest font-mono text-gray-400">
-          <li>
-            <a href="#services" onMouseEnter={ringHoverEnter} onMouseLeave={ringHoverLeave} className="hover:text-cyber-blue transition-colors flex items-center gap-1.5 group">
-              <span className="text-cyber-blue/60 group-hover:animate-ping opacity-80">_</span> SERVICES
-            </a>
-          </li>
-          <li>
-            <a href="#process" onMouseEnter={ringHoverEnter} onMouseLeave={ringHoverLeave} className="hover:text-cyber-purple transition-colors flex items-center gap-1.5 group">
-              <span className="text-cyber-purple/60 group-hover:animate-pulse">✦</span> HOW IT WORKS
-            </a>
-          </li>
-          <li>
-            <a href="#work" onMouseEnter={ringHoverEnter} onMouseLeave={ringHoverLeave} className="hover:text-cyber-green transition-colors flex items-center gap-1.5">
-              <Layers size={11} className="text-cyber-green/80" /> SELECTED WORK
-            </a>
-          </li>
-          <li>
-            <a href="#waitlist" onMouseEnter={ringHoverEnter} onMouseLeave={ringHoverLeave} className="relative block px-4 py-2 rounded bg-white text-black font-extrabold border-0 hover:shadow-[0_0_20px_rgba(255,255,255,0.4)] transition-all">
-              SECURE WAITLIST
-            </a>
-          </li>
-        </ul>
+        <div className="flex items-center gap-4">
+          <ul className="hidden md:flex items-center gap-8 text-[11px] tracking-widest font-mono text-gray-400">
+            <li>
+              <a href="#services" onMouseEnter={ringHoverEnter} onMouseLeave={ringHoverLeave} className="hover:text-cyber-blue transition-colors flex items-center gap-1.5 group">
+                <span className="text-cyber-blue/60 group-hover:animate-ping opacity-80">_</span> SERVICES
+              </a>
+            </li>
+            <li>
+              <a href="#process" onMouseEnter={ringHoverEnter} onMouseLeave={ringHoverLeave} className="hover:text-cyber-purple transition-colors flex items-center gap-1.5 group">
+                <span className="text-cyber-purple/60 group-hover:animate-pulse">✦</span> HOW IT WORKS
+              </a>
+            </li>
+            <li>
+              <a href="#work" onMouseEnter={ringHoverEnter} onMouseLeave={ringHoverLeave} className="hover:text-cyber-green transition-colors flex items-center gap-1.5">
+                <Layers size={11} className="text-cyber-green/80" /> SELECTED WORK
+              </a>
+            </li>
+            <li>
+              <a href="#waitlist" onMouseEnter={ringHoverEnter} onMouseLeave={ringHoverLeave} className="relative block px-4 py-2 rounded bg-white text-black font-extrabold border-0 hover:shadow-[0_0_20px_rgba(255,255,255,0.4)] transition-all">
+                SECURE WAITLIST
+              </a>
+            </li>
+          </ul>
+
+          <button
+            onClick={() => setIsSideMenuOpen(true)}
+            onMouseEnter={ringHoverEnter}
+            onMouseLeave={ringHoverLeave}
+            className="w-10 h-10 rounded-xl bg-white/[0.03] hover:bg-white/[0.08] border border-white/10 hover:border-cyber-blue/40 flex items-center justify-center text-white transition-all cursor-pointer relative group shadow-[0_0_15px_rgba(255,255,255,0.02)] z-10"
+            title="Open Control Drawer"
+          >
+            <Menu size={16} className="text-gray-300 group-hover:text-cyber-blue group-hover:scale-110 transition-all duration-300" />
+            <div className="absolute inset-0 border border-cyber-blue/0 group-hover:border-cyber-blue/30 rounded-xl transition-all duration-500 scale-95" />
+          </button>
+        </div>
       </nav>
+
+      {/* ── HIGH-TECH SIDE DRAWER MENU (HUD CONTROL CENTER) ── */}
+      <AnimatePresence>
+        {isSideMenuOpen && (
+          <>
+            {/* Backdrop Overlay */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsSideMenuOpen(false)}
+              className="fixed inset-0 z-50 bg-[#020204]/80 backdrop-blur-md cursor-pointer"
+            />
+
+            {/* Sidebar drawer panel */}
+            <motion.div
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ type: "spring", damping: 30, stiffness: 300 }}
+              className="fixed right-0 top-0 bottom-0 w-full sm:w-[420px] z-50 bg-[#03030c] border-l border-white/10 shadow-[0_0_60px_rgba(0,0,0,0.85)] flex flex-col justify-between overflow-y-auto"
+            >
+              <div className="p-8 flex flex-col gap-8">
+                {/* Drawer Header */}
+                <div className="flex items-center justify-between border-b border-white/5 pb-6">
+                  <div className="flex flex-col gap-1">
+                    <span className="text-[9px] text-cyber-blue font-mono tracking-[0.2em] uppercase">✦ CONTROL INTERFACE</span>
+                    <h3 className="font-orbitron font-extrabold text-white text-base tracking-widest">NAV_MENU_HUD</h3>
+                  </div>
+                  <button
+                    onClick={() => setIsSideMenuOpen(false)}
+                    onMouseEnter={ringHoverEnter}
+                    onMouseLeave={ringHoverLeave}
+                    className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 hover:border-cyber-rose/50 text-gray-400 hover:text-cyber-rose flex items-center justify-center transition-all cursor-pointer"
+                  >
+                    <X size={15} />
+                  </button>
+                </div>
+
+                {/* Main Navigation Links */}
+                <div className="flex flex-col gap-3 font-mono">
+                  <span className="text-[8px] text-gray-500 tracking-widest font-mono uppercase mb-2">DIRECTORY VECTOR LINKS</span>
+                  {[
+                    { label: "Home", href: "#" },
+                    { label: "Services", href: "#services" },
+                    { label: "How It Works", href: "#process" },
+                    { label: "Selected Work", href: "#work" },
+                    { label: "Faq", href: "#faq" }
+                  ].map((item, idx) => (
+                    <a
+                      key={idx}
+                      href={item.href}
+                      onClick={() => setIsSideMenuOpen(false)}
+                      onMouseEnter={ringHoverEnter}
+                      onMouseLeave={ringHoverLeave}
+                      className="group flex items-center justify-between p-4 rounded-xl border border-white/[0.02] bg-white/[0.01] hover:bg-white/[0.03] hover:border-cyber-blue/30 transition-all duration-300"
+                    >
+                      <div className="flex items-center gap-4">
+                        <span className="font-orbitron text-[9px] text-gray-500 group-hover:text-cyber-blue transition-colors">
+                          [0{idx + 1}]
+                        </span>
+                        <span className="text-xs uppercase font-extrabold tracking-widest text-gray-300 group-hover:text-white transition-colors">
+                          {item.label}
+                        </span>
+                      </div>
+                      <ChevronRight size={14} className="text-gray-600 group-hover:text-cyber-blue transition-all group-hover:translate-x-1" />
+                    </a>
+                  ))}
+                </div>
+
+                {/* System Status Readouts */}
+                <div className="p-5 rounded-2xl bg-[#030308]/60 border border-white/5 flex flex-col gap-4 font-mono">
+                  <span className="text-[8px] text-gray-500 tracking-widest uppercase">System HUD Telemetry</span>
+                  <div className="grid grid-cols-2 gap-4 text-[9px]">
+                    <div className="flex flex-col gap-0.5">
+                      <span className="text-gray-500 uppercase">SYS_LATENCY:</span>
+                      <span className="text-cyber-green font-bold flex items-center gap-1 text-[10px]">
+                        <Activity size={10} /> {latency} ms
+                      </span>
+                    </div>
+                    <div className="flex flex-col gap-0.5">
+                      <span className="text-gray-500 uppercase">SYNC_STATUS:</span>
+                      <span className="text-cyber-purple font-bold flex items-center gap-1 text-[10px]">
+                        <Cpu size={10} /> {systemSync}%
+                      </span>
+                    </div>
+                    <div className="flex flex-col gap-0.5 col-span-2 border-t border-white/5 pt-2">
+                      <span className="text-gray-500 uppercase">TIMESTAMP_UTC:</span>
+                      <span className="text-cyber-blue font-bold tracking-tight text-[10px]">{currentUtcTime}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Drawer Footer CTA */}
+              <div className="p-8 border-t border-white/5 bg-[#010103] flex flex-col gap-4">
+                <a
+                  href="#waitlist"
+                  onClick={() => setIsSideMenuOpen(false)}
+                  onMouseEnter={ringHoverEnter}
+                  onMouseLeave={ringHoverLeave}
+                  className="w-full text-center py-3.5 rounded-xl bg-gradient-to-r from-cyber-blue to-cyber-purple text-black font-extrabold font-mono text-[10px] tracking-widest uppercase hover:opacity-90 transition-opacity flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(0,170,255,0.2)]"
+                >
+                  <Fingerprint size={12} /> ACCESS WAITLIST
+                </a>
+                <div className="text-center text-[8px] text-gray-500 tracking-widest uppercase leading-normal">
+                  DIRECT CONTACT: <br />
+                  <a href="mailto:content2u.sj@gmail.com" className="text-white hover:underline transition-all">
+                    content2u.sj@gmail.com
+                  </a>
+                </div>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
 
       {/* ── SPATIAL PORTAL SCENE WRAPPER ── */}
       <main className="relative z-10 w-full">
@@ -866,7 +995,7 @@ export default function App() {
               {/* 2035 Dimensional Typography Heading */}
               <h1 ref={headlineRef} className="text-5xl md:text-8xl font-black tracking-tight leading-none text-white font-display">
                 <div className="overflow-hidden block">
-                  <span className="reveal-2035 inline-block opacity-0 mr-4">Websites</span>
+                  <span className="reveal-2035 inline-block opacity-0 mr-4">Ideas</span>
                   <span className="reveal-2035 inline-block opacity-0">That</span>
                 </div>
                 <div className="overflow-hidden block mt-1 pb-1">
@@ -1036,7 +1165,11 @@ export default function App() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 font-mono">
               
               {/* Card 1 */}
-              <div className="group relative rounded-2xl p-8 bg-white/[0.01] hover:bg-white/[0.02] border border-white/5 hover:border-cyber-blue/40 transition-all duration-500 backdrop-blur-xl overflow-hidden flex flex-col gap-4">
+              <motion.div 
+                animate={{ y: [0, -6, 0] }}
+                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+                className="group relative rounded-2xl p-8 bg-white/[0.01] hover:bg-white/[0.02] border border-white/5 hover:border-cyber-blue/40 transition-all duration-500 backdrop-blur-xl overflow-hidden flex flex-col gap-4"
+              >
                 <div className="absolute top-0 right-0 w-36 h-36 bg-gradient-to-bl from-cyber-blue/10 to-transparent pointer-events-none transition-all group-hover:opacity-80" />
                 <div className="absolute bg-gradient-to-r from-transparent via-cyber-blue/30 to-transparent w-full h-[2px] -top-[1px] left-0 group-hover:animate-[sweep_1.8s_ease_infinite]" />
                 <div className="w-10 h-10 rounded-xl bg-cyber-blue/10 border border-cyber-blue/30 flex items-center justify-center text-cyber-blue mb-1 shadow-[0_0_15px_rgba(0,170,255,0.15)] animate-mesh-float">
@@ -1050,10 +1183,14 @@ export default function App() {
                   <span>FLAT RATE</span>
                   <span>Starting at ₹5,000 / $500</span>
                 </div>
-              </div>
+              </motion.div>
 
               {/* Card 2 */}
-              <div className="group relative rounded-2xl p-8 bg-white/[0.01] hover:bg-white/[0.02] border border-white/5 hover:border-cyber-purple/40 transition-all duration-500 backdrop-blur-xl overflow-hidden flex flex-col gap-4">
+              <motion.div 
+                animate={{ y: [0, -6, 0] }}
+                transition={{ duration: 6.2, repeat: Infinity, ease: "easeInOut", delay: 0.3 }}
+                className="group relative rounded-2xl p-8 bg-white/[0.01] hover:bg-white/[0.02] border border-white/5 hover:border-cyber-purple/40 transition-all duration-500 backdrop-blur-xl overflow-hidden flex flex-col gap-4"
+              >
                 <div className="absolute top-0 right-0 w-36 h-36 bg-gradient-to-bl from-cyber-purple/10 to-transparent pointer-events-none transition-all group-hover:opacity-80" />
                 <div className="absolute bg-gradient-to-r from-transparent via-cyber-purple/30 to-transparent w-full h-[2px] -top-[1px] left-0 group-hover:animate-[sweep_1.8s_ease_infinite]" />
                 <div className="w-10 h-10 rounded-xl bg-cyber-purple/10 border border-cyber-purple/30 flex items-center justify-center text-cyber-purple mb-1 shadow-[0_0_15px_rgba(188,19,254,0.15)]">
@@ -1067,10 +1204,14 @@ export default function App() {
                   <span>FLAT RATE</span>
                   <span>Starting at ₹12,000 / $1,200</span>
                 </div>
-              </div>
+              </motion.div>
 
               {/* Card 3 */}
-              <div className="group relative rounded-2xl p-8 bg-white/[0.01] hover:bg-white/[0.02] border border-white/5 hover:border-cyber-rose/40 transition-all duration-500 backdrop-blur-xl overflow-hidden flex flex-col gap-4">
+              <motion.div 
+                animate={{ y: [0, -6, 0] }}
+                transition={{ duration: 4.8, repeat: Infinity, ease: "easeInOut", delay: 0.1 }}
+                className="group relative rounded-2xl p-8 bg-white/[0.01] hover:bg-white/[0.02] border border-white/5 hover:border-cyber-rose/40 transition-all duration-500 backdrop-blur-xl overflow-hidden flex flex-col gap-4"
+              >
                 <div className="absolute top-0 right-0 w-36 h-36 bg-gradient-to-bl from-cyber-rose/10 to-transparent pointer-events-none transition-all group-hover:opacity-80" />
                 <div className="absolute bg-gradient-to-r from-transparent via-cyber-rose/30 to-transparent w-full h-[2px] -top-[1px] left-0 group-hover:animate-[sweep_1.8s_ease_infinite]" />
                 <div className="w-10 h-10 rounded-xl bg-cyber-rose/10 border border-cyber-rose/30 flex items-center justify-center text-cyber-rose mb-1 shadow-[0_0_15px_rgba(255,42,95,0.15)] animate-mesh-float">
@@ -1084,10 +1225,14 @@ export default function App() {
                   <span>FLAT RATE</span>
                   <span>Starting at ₹20,000 / $2,000</span>
                 </div>
-              </div>
+              </motion.div>
 
               {/* Card 4 */}
-              <div className="group relative rounded-2xl p-8 bg-white/[0.01] hover:bg-white/[0.02] border border-white/5 hover:border-cyber-green/40 transition-all duration-500 backdrop-blur-xl overflow-hidden flex flex-col gap-4">
+              <motion.div 
+                animate={{ y: [0, -6, 0] }}
+                transition={{ duration: 5.8, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+                className="group relative rounded-2xl p-8 bg-white/[0.01] hover:bg-white/[0.02] border border-white/5 hover:border-cyber-green/40 transition-all duration-500 backdrop-blur-xl overflow-hidden flex flex-col gap-4"
+              >
                 <div className="absolute top-0 right-0 w-36 h-36 bg-gradient-to-bl from-cyber-green/10 to-transparent pointer-events-none transition-all group-hover:opacity-80" />
                 <div className="absolute bg-gradient-to-r from-transparent via-cyber-green/30 to-transparent w-full h-[2px] -top-[1px] left-0 group-hover:animate-[sweep_1.8s_ease_infinite]" />
                 <div className="w-10 h-10 rounded-xl bg-cyber-green/10 border border-cyber-green/30 flex items-center justify-center text-cyber-green mb-1 shadow-[0_0_15px_rgba(0,255,170,0.15)]">
@@ -1101,10 +1246,14 @@ export default function App() {
                   <span>FLAT RATE</span>
                   <span>Starting at ₹15,000 / $1,500</span>
                 </div>
-              </div>
+              </motion.div>
 
               {/* Card 5 */}
-              <div className="group relative rounded-2xl p-8 bg-white/[0.01] hover:bg-white/[0.02] border border-white/5 hover:border-cyber-amber/40 transition-all duration-500 backdrop-blur-xl overflow-hidden flex flex-col gap-4">
+              <motion.div 
+                animate={{ y: [0, -6, 0] }}
+                transition={{ duration: 6.5, repeat: Infinity, ease: "easeInOut", delay: 0.2 }}
+                className="group relative rounded-2xl p-8 bg-white/[0.01] hover:bg-white/[0.02] border border-white/5 hover:border-cyber-amber/40 transition-all duration-500 backdrop-blur-xl overflow-hidden flex flex-col gap-4"
+              >
                 <div className="absolute top-0 right-0 w-36 h-36 bg-gradient-to-bl from-cyber-amber/10 to-transparent pointer-events-none transition-all group-hover:opacity-80" />
                 <div className="absolute bg-gradient-to-r from-transparent via-cyber-amber/30 to-transparent w-full h-[2px] -top-[1px] left-0 group-hover:animate-[sweep_1.8s_ease_infinite]" />
                 <div className="w-10 h-10 rounded-xl bg-cyber-amber/10 border border-cyber-amber/30 flex items-center justify-center text-cyber-amber mb-1 shadow-[0_0_15px_rgba(255,170,0,0.15)] animate-mesh-float">
@@ -1118,10 +1267,14 @@ export default function App() {
                   <span>FLAT RATE</span>
                   <span>Starting at ₹8,000 / $800</span>
                 </div>
-              </div>
+              </motion.div>
 
               {/* Card 6 */}
-              <div className="group relative rounded-2xl p-8 bg-white/[0.01] hover:bg-white/[0.02] border border-white/5 hover:border-cyber-blue/40 transition-all duration-500 backdrop-blur-xl overflow-hidden flex flex-col gap-4">
+              <motion.div 
+                animate={{ y: [0, -6, 0] }}
+                transition={{ duration: 5.2, repeat: Infinity, ease: "easeInOut", delay: 0.4 }}
+                className="group relative rounded-2xl p-8 bg-white/[0.01] hover:bg-white/[0.02] border border-white/5 hover:border-cyber-blue/40 transition-all duration-500 backdrop-blur-xl overflow-hidden flex flex-col gap-4"
+              >
                 <div className="absolute top-0 right-0 w-36 h-36 bg-gradient-to-bl from-cyber-blue/10 to-transparent pointer-events-none transition-all group-hover:opacity-80" />
                 <div className="absolute bg-gradient-to-r from-transparent via-cyber-blue/30 to-transparent w-full h-[2px] -top-[1px] left-0 group-hover:animate-[sweep_1.8s_ease_infinite]" />
                 <div className="w-10 h-10 rounded-xl bg-cyber-blue/10 border border-cyber-blue/30 flex items-center justify-center text-cyber-blue mb-1 shadow-[0_0_15px_rgba(0,170,255,0.15)]">
@@ -1135,56 +1288,11 @@ export default function App() {
                   <span>ONGOING RETAIN</span>
                   <span>Starting at ₹4,000 / $400/mo</span>
                 </div>
-              </div>
+              </motion.div>
 
             </div>
           </div>
         </section>
-
-        {/* ── INTERACTIVE QUANTUM READOUT / COGNITIVE HEALTH ENGINE ── */}
-        <section className="px-6 md:px-12 py-10 relative">
-          <div className="max-w-6xl mx-auto rounded-3xl p-6 md:p-10 border border-white/5 bg-[#030308]/40 backdrop-blur-2xl flex flex-col lg:flex-row gap-8 justify-between items-center relative overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-r from-cyber-blue/5 to-transparent pointer-none" />
-            
-            <div className="flex flex-col gap-3 max-w-lg z-10">
-              <span className="text-[10px] text-cyber-green font-mono tracking-widest uppercase">✦ BIOMIMETIC SENSOR LINK</span>
-              <h3 className="text-2xl font-black font-display text-white">Interactive Focus Wave</h3>
-              <p className="text-xs text-gray-400 font-mono leading-relaxed">
-                Move your pointer across this node to observe real-time vector waves generated procedurally by your interactive cursor speed (current speed: <span className="text-cyber-blue">{mouseSpeed} points / cycle</span>).
-              </p>
-            </div>
-
-            <div className="w-full lg:w-1/2 h-24 bg-black/40 rounded-2xl border border-white/10 relative overflow-hidden flex items-end px-4 py-2 z-10">
-              {/* SVG Live Sine wave dynamically styled based on mouse velocity */}
-              <svg className="absolute inset-0 w-full h-full text-cyber-blue/10" xmlns="http://www.w3.org/2000/svg">
-                <line x1="0" y1="48" x2="100%" y2="48" stroke="currentColor" strokeWidth="1" strokeDasharray="4 4" />
-              </svg>
-              
-              <div className="w-full flex items-end gap-1.5 h-full relative z-10">
-                {Array.from({ length: 30 }).map((_, idx) => {
-                  const amp = Math.sin(idx * 0.45) * Math.max(8, mouseSpeed * 0.18);
-                  const scaledHeight = Math.min(68, Math.max(4, 34 + amp));
-                  return (
-                    <div 
-                      key={idx} 
-                      className="flex-1 rounded-t-sm transition-all duration-300"
-                      style={{
-                        height: `${scaledHeight}%`,
-                        background: idx % 2 === 0 ? "var(--color-cyber-blue)" : "var(--color-cyber-purple)",
-                        opacity: 0.3 + (mouseSpeed / 600) * 0.7
-                      }}
-                    />
-                  );
-                })}
-              </div>
-              
-              <div className="absolute top-2 right-4 text-[8px] font-mono text-gray-500 uppercase tracking-widest">
-                FOCUS_AMP_STABLE
-              </div>
-            </div>
-          </div>
-        </section>
-
         {/* ── THE LOGISTICS ENGINE / PROCESS ── */}
         <section id="process" className="relative px-6 md:px-12 py-16 md:py-20 border-y border-white/5">
           <div className="max-w-6xl mx-auto flex flex-col gap-14 relative z-10 font-mono">
