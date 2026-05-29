@@ -1,0 +1,6 @@
+{
+  "name": "18spar Web Design Services",
+  "description": "Next-generation immersive sci-fi web experience for 18spar, featuring interactive and cinematic visuals.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
